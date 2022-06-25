@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using FilmesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,14 +9,28 @@ namespace FilmesAPI.Controllers
     [Route("[Controller]")]
     public class FilmeController : ControllerBase
     {
-        List<Filme> filmes = new List<Filme>();
+        private static List<Filme> filmes = new List<Filme>();
+        private static int id = 1;
 
 
         [HttpPost]
         public void AdicionaFilme([FromBody]Filme filme)
         {
+            filme.Id= id++;
             filmes.Add(filme);
         }
-        
+
+        [HttpGet]
+        public IEnumerable<Filme> RecuperaFilmes()
+        {
+            return filmes;
+        }
+
+        [HttpGet("{id}")]
+        public Filme RecuperaFilmePorId(int id)
+        {
+            return filmes.FirstOrDefault(filme => filme.Id == id);
+        }
+
     }
 }
