@@ -6,30 +6,39 @@ using Microsoft.AspNetCore.Mvc;
 namespace FilmesAPI.Controllers
 {
     [ApiController]
-    [Route("[Controller]")]
+    [Route("[Controller]")] // Define a rota da API neste caso a rota principal sera o nome da controller Filme
     public class FilmeController : ControllerBase
     {
-        private static List<Filme> filmes = new List<Filme>();
-        private static int id = 1;
+        private static List<Filme> filmes = new List<Filme>(); // Cria uma lista de filmes paar ser manipulada em tempo de execução
+        private static int id = 1; // Cria o id dos filmes
 
 
-        [HttpPost]
-        public void AdicionaFilme([FromBody]Filme filme)
+        [HttpPost] // Adiciona um filme
+        public IActionResult AdicionaFilme([FromBody] Filme filme)
         {
-            filme.Id= id++;
-            filmes.Add(filme);
+            filme.Id = id++; // Adiciona um id ao filme
+            filmes.Add(filme); // Adiciona um filme na lista
+            // retorna o status code 201 (Created) e a localização de onde o recurso pode ser acessado no nosso sistema
+            return CreatedAtAction(nameof(RecuperaFilmePorId), new { Id = filme.Id }, filme); 
         }
 
-        [HttpGet]
-        public IEnumerable<Filme> RecuperaFilmes()
+        [HttpGet] // Recupera todos os filmes
+        public IActionResult RecuperaFilmes()
         {
-            return filmes;
+            return Ok(filmes); // retorna o status code 200 de success juntamente com a lista de filmes
         }
 
-        [HttpGet("{id}")]
-        public Filme RecuperaFilmePorId(int id)
+        [HttpGet("{id}")] // Recupera um filme por id
+        public IActionResult RecuperaFilmePorId(int id) // recebe o parametro id do verbo HttpGet("{id}")
         {
-            return filmes.FirstOrDefault(filme => filme.Id == id);
+            // retorna o primeiro resultado da busca
+            Filme filme = filmes.FirstOrDefault(filme => filme.Id == id); 
+            if (filme != null) 
+            {
+                // caso a consulta não seja nula, retorno o status code 200 juntamente com o filme
+                return Ok(filme);
+            }
+            return NotFound(); // caso não tenha nenhum dado na pesquisa, retorna o status code 404
         }
 
     }
