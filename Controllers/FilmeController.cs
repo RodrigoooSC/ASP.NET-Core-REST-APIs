@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FilmesAPI.Data;
+using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,8 +22,17 @@ namespace FilmesAPI.Controllers
 
 
         [HttpPost] // Adiciona um filme
-        public IActionResult AdicionaFilme([FromBody] Filme filme)
+        public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
         {
+            // Converte o filmedto em filme
+            Filme filme = new Filme 
+            {
+                Titulo = filmeDto.Titulo,
+                Diretor = filmeDto.Diretor,
+                Genero = filmeDto.Genero,
+                Duracao = filmeDto.Duracao
+            };
+
             _context.Filmes.Add(filme);
             _context.SaveChanges();
             // retorna o status code 201 (Created) e a localização de onde o recurso pode ser acessado no nosso sistema
@@ -41,14 +52,24 @@ namespace FilmesAPI.Controllers
             Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id); 
             if (filme != null) 
             {
+                // Cria um objeto para retornar os dados de sua maneira
+                ReadFilmeDto filmeDto = new ReadFilmeDto
+                {
+                    Titulo = filme.Titulo,
+                    Diretor  =filme.Diretor,
+                    Genero = filme.Genero,
+                    Duracao = filme.Duracao,
+                    HoraDaConsulta = DateTime.Now
+
+                };
                 // caso a consulta não seja nula, retorno o status code 200 juntamente com o filme
-                return Ok(filme);
+                return Ok(filmeDto);
             }
             return NotFound(); // caso não tenha nenhum dado na pesquisa, retorna o status code 404
         }
 
         [HttpPut("{id}")] // Atualiza um filme por id
-        public IActionResult AtualizaFilme(int id,[FromBody]Filme filmeAtualizar) 
+        public IActionResult AtualizaFilme(int id,[FromBody] UpdateFilmeDto filmeAtualizarDto) 
         {
             
             Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id); 
@@ -56,10 +77,10 @@ namespace FilmesAPI.Controllers
             {                
                 return NotFound();
             }
-            filme.Titulo = filmeAtualizar.Titulo;
-            filme.Diretor = filmeAtualizar.Diretor;
-            filme.Genero = filmeAtualizar.Genero;
-            filme.Duracao = filmeAtualizar.Duracao;
+            filme.Titulo = filmeAtualizarDto.Titulo;
+            filme.Diretor = filmeAtualizarDto.Diretor;
+            filme.Genero = filmeAtualizarDto.Genero;
+            filme.Duracao = filmeAtualizarDto.Duracao;
             _context.SaveChanges();
             return NoContent();
 
@@ -73,8 +94,8 @@ namespace FilmesAPI.Controllers
             {                
                 return NotFound();
             }
-            _context.Remove(filme);
-            _context.SaveChanges();
+            _context.Remove(filme); // remove filme
+            _context.SaveChanges(); // Salva as alterações
             return NoContent();
         }
 
