@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using FilmesAPI.Data;
 using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;
@@ -14,29 +15,26 @@ namespace FilmesAPI.Controllers
     {
 
         private FilmeContext _context;
+        private IMapper _mapper;
 
-        public FilmeController(FilmeContext context)
+        // Injeta as dependêcias no controller
+        public FilmeController(FilmeContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
 
         [HttpPost] // Adiciona um filme
         public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
         {
-            // Converte o filmedto em filme
-            Filme filme = new Filme 
-            {
-                Titulo = filmeDto.Titulo,
-                Diretor = filmeDto.Diretor,
-                Genero = filmeDto.Genero,
-                Duracao = filmeDto.Duracao
-            };
+            // Converte o filmedto em filme utilizando o mapper
+            Filme filme = _mapper.Map<Filme>(filmeDto);
 
             _context.Filmes.Add(filme);
             _context.SaveChanges();
             // retorna o status code 201 (Created) e a localização de onde o recurso pode ser acessado no nosso sistema
-            return CreatedAtAction(nameof(RecuperaFilmePorId), new { Id = filme.Id }, filme); 
+            return CreatedAtAction(nameof(RecuperaFilmePorId), new { Id = filme.Id }, filme);
         }
 
         [HttpGet] // Recupera todos os filmes
@@ -49,19 +47,12 @@ namespace FilmesAPI.Controllers
         public IActionResult RecuperaFilmePorId(int id) // recebe o parametro id do verbo HttpGet("{id}")
         {
             // retorna o primeiro resultado da busca
-            Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id); 
-            if (filme != null) 
+            Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
+            if (filme != null)
             {
-                // Cria um objeto para retornar os dados de sua maneira
-                ReadFilmeDto filmeDto = new ReadFilmeDto
-                {
-                    Titulo = filme.Titulo,
-                    Diretor  =filme.Diretor,
-                    Genero = filme.Genero,
-                    Duracao = filme.Duracao,
-                    HoraDaConsulta = DateTime.Now
+                // Cria um objeto para retornar os dados e faz o mapeamento usando o mapper
+                ReadFilmeDto filmeDto = _mapper.Map<ReadFilmeDto>(filme);
 
-                };
                 // caso a consulta não seja nula, retorno o status code 200 juntamente com o filme
                 return Ok(filmeDto);
             }
@@ -69,29 +60,26 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPut("{id}")] // Atualiza um filme por id
-        public IActionResult AtualizaFilme(int id,[FromBody] UpdateFilmeDto filmeAtualizarDto) 
+        public IActionResult AtualizaFilme(int id, [FromBody] UpdateFilmeDto filmeAtualizarDto)
         {
-            
-            Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id); 
+
+            Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
             if (filme == null) // Verifica se o filme existe
-            {                
+            {
                 return NotFound();
             }
-            filme.Titulo = filmeAtualizarDto.Titulo;
-            filme.Diretor = filmeAtualizarDto.Diretor;
-            filme.Genero = filmeAtualizarDto.Genero;
-            filme.Duracao = filmeAtualizarDto.Duracao;
+
+            _mapper.Map(filmeAtualizarDto, filme); // Converte dois objetos relacionados entre sí
             _context.SaveChanges();
             return NoContent();
-
         }
 
         [HttpDelete("{id}")] // Delete todos os filmes
         public IActionResult DeletaFilme(int id)
         {
-             Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id); 
+            Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
             if (filme == null) // Verifica se o filme existe
-            {                
+            {
                 return NotFound();
             }
             _context.Remove(filme); // remove filme
