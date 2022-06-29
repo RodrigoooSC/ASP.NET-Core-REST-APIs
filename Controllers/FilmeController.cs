@@ -24,7 +24,6 @@ namespace FilmesAPI.Controllers
             _mapper = mapper;
         }
 
-
         [HttpPost] // Adiciona um filme
         public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
         {
