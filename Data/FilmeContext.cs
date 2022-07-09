@@ -22,7 +22,9 @@ namespace FilmesAPI.Data
             builder.Entity<Cinema>()
             .HasOne(cinema => cinema.Gerente) // Um cinema tem um gerente
             .WithMany(gerente => gerente.Cinemas) // Um gerente tem muitos cinemas
-            .HasForeignKey(cinema => cinema.GerenteId); // Chave estrangeira que referencia o gerente.
+            .HasForeignKey(cinema => cinema.GerenteId).IsRequired(false); // Chave estrangeira que referencia o gerente.
+            // No modo cascata, se tentarmos deletar um recurso que é dependência de outro, todos os outros recursos que dependem desse serão excluídos também. No modo restrito não conseguiremos efetuar a deleção.
+            
         }
 
         public DbSet<Filme> Filmes {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos filmes.
