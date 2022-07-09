@@ -9,6 +9,10 @@ namespace FilmesAPI.Data
         {            
         }
 
-        public DbSet<Filme> Filmes {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos filmes.        
+        public DbSet<Filme> Filmes {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos filmes.
+
+         public DbSet<Cinema> Cinemas {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos cinemas.
+
+         public DbSet<Endereco> Enderecos {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos enderecos.          
     }
 }
