@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FilmesAPI.Migrations
 {
     [DbContext(typeof(FilmeContext))]
-    [Migration("20220709194807_Adicionando Gerente")]
-    partial class AdicionandoGerente
+    [Migration("20220709215723_Adicionando relacao entre gerente e cinema")]
+    partial class Adicionandorelacaoentregerenteecinema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,9 @@ namespace FilmesAPI.Migrations
                     b.Property<int>("EnderecoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("GerenteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
@@ -35,6 +38,8 @@ namespace FilmesAPI.Migrations
 
                     b.HasIndex("EnderecoId")
                         .IsUnique();
+
+                    b.HasIndex("GerenteId");
 
                     b.ToTable("Cinemas");
                 });
@@ -106,6 +111,12 @@ namespace FilmesAPI.Migrations
                     b.HasOne("FilmesAPI.Models.Endereco", "Endereco")
                         .WithOne("Cinema")
                         .HasForeignKey("FilmesAPI.Models.Cinema", "EnderecoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FilmesAPI.Models.Gerente", "Gerente")
+                        .WithMany("Cinemas")
+                        .HasForeignKey("GerenteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

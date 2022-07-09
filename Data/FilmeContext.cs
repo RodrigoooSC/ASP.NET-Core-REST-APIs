@@ -17,6 +17,12 @@ namespace FilmesAPI.Data
             .HasOne(endereco => endereco.Cinema) // Um endereco tem um cinema
             .WithOne(cinema => cinema.Endereco) // Um cinema possui um endereco
             .HasForeignKey<Cinema>(cinema => cinema.EnderecoId); // Chave estrangeira que liga a um endereco a um cinema ente as tabelas
+
+            // Definimos uma relação de 1:n
+            builder.Entity<Cinema>()
+            .HasOne(cinema => cinema.Gerente) // Um cinema tem um gerente
+            .WithMany(gerente => gerente.Cinemas) // Um gerente tem muitos cinemas
+            .HasForeignKey(cinema => cinema.GerenteId); // Chave estrangeira que referencia o gerente.
         }
 
         public DbSet<Filme> Filmes {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos filmes.

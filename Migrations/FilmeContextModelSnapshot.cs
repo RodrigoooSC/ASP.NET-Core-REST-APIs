@@ -25,6 +25,9 @@ namespace FilmesAPI.Migrations
                     b.Property<int>("EnderecoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("GerenteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
@@ -33,6 +36,8 @@ namespace FilmesAPI.Migrations
 
                     b.HasIndex("EnderecoId")
                         .IsUnique();
+
+                    b.HasIndex("GerenteId");
 
                     b.ToTable("Cinemas");
                 });
@@ -104,6 +109,12 @@ namespace FilmesAPI.Migrations
                     b.HasOne("FilmesAPI.Models.Endereco", "Endereco")
                         .WithOne("Cinema")
                         .HasForeignKey("FilmesAPI.Models.Cinema", "EnderecoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FilmesAPI.Models.Gerente", "Gerente")
+                        .WithMany("Cinemas")
+                        .HasForeignKey("GerenteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
