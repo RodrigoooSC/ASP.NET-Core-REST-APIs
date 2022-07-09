@@ -30,7 +30,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Endereco> RecuperaEnderecos([FromQuery] string enderecoCinema)
+        public IEnumerable<Endereco> RecuperaEnderecos()
         {
             return _context.Enderecos;
         }
@@ -41,8 +41,8 @@ namespace FilmesAPI.Controllers
             Endereco endereco = _context.Enderecos.FirstOrDefault(endereco => endereco.Id == id);
             if(endereco != null)
             {
-                ReadCinemaDto cinemaDto = _mapper.Map<ReadCinemaDto>(endereco);
-                return Ok(cinemaDto);
+                ReadEnderecoDto enderecoDto = _mapper.Map<ReadEnderecoDto>(endereco);
+                return Ok(enderecoDto);
             }
             return NotFound();
         }

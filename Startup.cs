@@ -29,8 +29,9 @@ namespace FilmesAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // Configurando o serviço de acesso ao banco de dados
-            services.AddDbContext<FilmeContext>(opts => opts.UseMySQL(Configuration.GetConnectionString("FilmeConnection")));
+            // Configurando o serviço de acesso ao banco de dados, com a definição de carregamento das propriedades dinamicamente no momento das consultas.
+            services.AddDbContext<FilmeContext>(opts => opts.UseLazyLoadingProxies()
+            .UseMySQL(Configuration.GetConnectionString("FilmeConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
