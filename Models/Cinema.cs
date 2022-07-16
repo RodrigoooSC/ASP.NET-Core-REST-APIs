@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FilmesAPI.Models
 {
@@ -14,6 +15,7 @@ namespace FilmesAPI.Models
         public int EnderecoId { get; set; } // Identifica o seu endereco
         public virtual Gerente Gerente { get; set; } // O cinema possui um gerente
         public int GerenteId { get; set; } // Identifica o seu gerente
+        [JsonIgnore]
         public virtual List<Sessao> Sessoes { get; set; }
         
         

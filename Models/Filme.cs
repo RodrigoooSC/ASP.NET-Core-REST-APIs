@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FilmesAPI.Models
 {
@@ -18,6 +19,7 @@ namespace FilmesAPI.Models
         [StringLength(100, ErrorMessage = "O nome do diretor não pode exceder 100 caracterres")] // Limita a digitação de caracteres
         public string Diretor { get; set; }
         public string ClassificaçãoEtaria { get; set; }
+        [JsonIgnore]
         public virtual List<Sessao> Sessoes { get; set; }
         
         
