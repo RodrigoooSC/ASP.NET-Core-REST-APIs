@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FilmesAPI.Models
@@ -12,6 +13,9 @@ namespace FilmesAPI.Models
         public virtual Endereco Endereco { get; set; } // O cinema possui um endereco
         public int EnderecoId { get; set; } // Identifica o seu endereco
         public virtual Gerente Gerente { get; set; } // O cinema possui um gerente
-        public int GerenteId { get; set; } // Identifica o seu gerente  
+        public int GerenteId { get; set; } // Identifica o seu gerente
+        public virtual List<Sessao> Sessoes { get; set; }
+        
+        
     }
 }

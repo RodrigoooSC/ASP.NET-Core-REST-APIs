@@ -24,6 +24,19 @@ namespace FilmesAPI.Data
             .WithMany(gerente => gerente.Cinemas) // Um gerente tem muitos cinemas
             .HasForeignKey(cinema => cinema.GerenteId).IsRequired(false); // Chave estrangeira que referencia o gerente.
             // No modo cascata, se tentarmos deletar um recurso que é dependência de outro, todos os outros recursos que dependem desse serão excluídos também. No modo restrito não conseguiremos efetuar a deleção.
+
+            // Definimos uma relação de n:n
+            builder.Entity<Sessao>()
+            .HasOne(sessao => sessao.Filme) // uma sessão possui um filme
+            .WithMany(filme => filme.Sessoes) // um filme pode ter multiplas sessões
+            .HasForeignKey(sessao => sessao.FilmeId); // Chave estrangeira que refencia um filme
+
+            // Definimos uma relação de n:n
+            builder.Entity<Sessao>()
+            .HasOne(sessao => sessao.Cinema) // uma sessão possui um cinema
+            .WithMany(cinema => cinema.Sessoes) // um cinema pode ter multiplas sessões
+            .HasForeignKey(sessao => sessao.CinemaId); // Chave estrangeira que refencia um cienma
+
             
         }
 
@@ -32,7 +45,7 @@ namespace FilmesAPI.Data
          public DbSet<Cinema> Cinemas {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos cinemas.
 
          public DbSet<Endereco> Enderecos {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos enderecos.  
-
-         public DbSet<Gerente> Gerentes {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos gerentes.        
+         public DbSet<Gerente> Gerentes {get; set;} // Propriedade que vai mapear de forma encapsulada os dados dos gerentes.
+         public DbSet<Sessao> Sessoes {get; set;} // Propriedade que vai mapear de forma encapsulada os dados das sessoes.            
     }
 }
