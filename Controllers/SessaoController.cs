@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FilmesAPI.Data;
@@ -29,6 +30,12 @@ namespace FilmesAPI.Controllers
             return CreatedAtAction(nameof(RecuperaSessaoPorId), new { Id = sessao.Id }, sessao);
         }
 
+        [HttpGet]
+        public IEnumerable<Sessao> RecuperaSessoes()
+        {
+            return _context.Sessoes;
+        }
+
         [HttpGet("{id}")]
         public IActionResult RecuperaSessaoPorId(int id)
         {
@@ -39,6 +46,32 @@ namespace FilmesAPI.Controllers
                 return Ok(sessaoDto);
             }
             return NotFound();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult AtualizaSessao(int id, [FromBody] UpdateSessaoDto sessaoDto)
+        {
+            Sessao sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.Id == id);
+            if(sessao == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(sessaoDto, sessao);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeletaSessao(int id)
+        {
+            Sessao sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.Id == id);
+            if (sessao == null)
+            {
+                return NotFound();
+            }
+            _context.Remove(sessao);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }

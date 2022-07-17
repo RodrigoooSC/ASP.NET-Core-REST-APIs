@@ -35,7 +35,7 @@ namespace FilmesAPI.Data
             builder.Entity<Sessao>()
             .HasOne(sessao => sessao.Cinema) // uma sessão possui um cinema
             .WithMany(cinema => cinema.Sessoes) // um cinema pode ter multiplas sessões
-            .HasForeignKey(sessao => sessao.CinemaId); // Chave estrangeira que refencia um cienma
+            .HasForeignKey(sessao => sessao.CinemaId); // Chave estrangeira que refencia um cinema
 
             
         }
