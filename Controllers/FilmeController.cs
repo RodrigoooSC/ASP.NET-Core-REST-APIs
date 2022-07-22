@@ -5,6 +5,8 @@ using AutoMapper;
 using FilmesAPI.Data;
 using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;
+using FilmesAPI.Services;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmesAPI.Controllers
@@ -13,95 +15,52 @@ namespace FilmesAPI.Controllers
     [Route("[Controller]")] // Define a rota da API neste caso a rota principal sera o nome da controller Filme
     public class FilmeController : ControllerBase
     {
-
-        private FilmeContext _context;
-        private IMapper _mapper;
+        private FilmeService _filmeService;
 
         // Injeta as dependêcias no controller
-        public FilmeController(FilmeContext context, IMapper mapper)
+        public FilmeController(FilmeService filmeService)
         {
-            _context = context;
-            _mapper = mapper;
+            _filmeService = filmeService;
         }
 
         [HttpPost] // Adiciona um filme
         public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
         {
-            // Converte o filmedto em filme utilizando o mapper
-            Filme filme = _mapper.Map<Filme>(filmeDto);
-
-            _context.Filmes.Add(filme);
-            _context.SaveChanges();
+            ReadFilmeDto readDto = _filmeService.AdicionaFilme(filmeDto);
             // retorna o status code 201 (Created) e a localização de onde o recurso pode ser acessado no nosso sistema
-            return CreatedAtAction(nameof(RecuperaFilmePorId), new { Id = filme.Id }, filme);
+            return CreatedAtAction(nameof(RecuperaFilmePorId), new { Id = readDto.Id }, readDto);
         }
 
         [HttpGet] // Recupera todos os filmes por classificacao etaria
         public IActionResult RecuperaFilmes([FromQuery] int? classificacaoEtaria = null) // Classificacao etari pode ser nula
         {
-            List<Filme> filmes;
-            //Se classificacao etaria for nula retorna todos os filmes
-            if(classificacaoEtaria == null)
-            {
-                filmes = _context.Filmes.ToList();
-            }
-            else
-            {
-                // Faz um consulta por classificacao etaria
-                 filmes = _context.Filmes.Where(filme => filme.ClassificacaoEtaria <= classificacaoEtaria).ToList();
-            }
-            
-            if(filmes != null)
-            {
-                List<ReadFilmeDto> filmeDto = _mapper.Map<List<ReadFilmeDto>>(filmes);
-                return Ok(filmeDto);
-            }
+            List<ReadFilmeDto> readDto =  _filmeService.RecuperaFilmes(classificacaoEtaria);
+            if(readDto != null) return Ok(readDto);            
             return NotFound();           
         }
 
         [HttpGet("{id}")] // Recupera um filme por id
         public IActionResult RecuperaFilmePorId(int id) // recebe o parametro id do verbo HttpGet("{id}")
         {
-            // retorna o primeiro resultado da busca
-            Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
-            if (filme != null)
-            {
-                // Cria um objeto para retornar os dados e faz o mapeamento usando o mapper
-                ReadFilmeDto filmeDto = _mapper.Map<ReadFilmeDto>(filme);
-
-                // caso a consulta não seja nula, retorno o status code 200 juntamente com o filme
-                return Ok(filmeDto);
-            }
+            ReadFilmeDto readDto = _filmeService.RecuperaFilmePorId(id); 
+            if(readDto != null) return Ok(readDto);             
             return NotFound(); // caso não tenha nenhum dado na pesquisa, retorna o status code 404
         }
 
         [HttpPut("{id}")] // Atualiza um filme por id
         public IActionResult AtualizaFilme(int id, [FromBody] UpdateFilmeDto filmeAtualizarDto)
         {
-
-            Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
-            if (filme == null) // Verifica se o filme existe
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(filmeAtualizarDto, filme); // Converte dois objetos relacionados entre sí
-            _context.SaveChanges();
+           Result resultado =_filmeService.AtualizaFilme(id, filmeAtualizarDto);            
+            if (resultado.IsFailed) return NotFound();           
             return NoContent();
         }
 
         [HttpDelete("{id}")] // Delete todos os filmes
         public IActionResult DeletaFilme(int id)
         {
-            Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
-            if (filme == null) // Verifica se o filme existe
-            {
-                return NotFound();
-            }
-            _context.Remove(filme); // remove filme
-            _context.SaveChanges(); // Salva as alterações
+            Result resultado = _filmeService.DeletaFilme(id);
+            if(resultado.IsFailed) return NotFound();
             return NoContent();
         }
-
     }
 }
