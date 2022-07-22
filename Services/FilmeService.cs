@@ -72,7 +72,7 @@ namespace FilmesAPI.Services
             Filme filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
             if (filme == null)
             {
-                return Result.Fail("Filme não encontrado!"); // Pacote FluentResults 
+                return Result.Fail("Filme não encontrado!"); // Pacote FluentResults para retorno de resultados
             }           
 
             _mapper.Map(filmeAtualizarDto, filme); // Converte dois objetos relacionados entre sí

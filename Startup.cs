@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FilmesAPI.Data;
+using FilmesAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,10 +29,13 @@ namespace FilmesAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             // Configurando o serviço de acesso ao banco de dados, com a definição de carregamento das propriedades dinamicamente no momento das consultas.
             services.AddDbContext<FilmeContext>(opts => opts.UseLazyLoadingProxies()
             .UseMySQL(Configuration.GetConnectionString("FilmeConnection")));
+            // Configurando o service dos serviços
+            services.AddScoped<FilmeService, FilmeService>();
+            services.AddScoped<CinemaService, CinemaService>();
+            services.AddScoped<GerenteService, GerenteService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
