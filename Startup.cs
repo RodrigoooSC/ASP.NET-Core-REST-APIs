@@ -27,6 +27,9 @@ namespace UsuarioAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            // Adcionando serviço do AutoMapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
