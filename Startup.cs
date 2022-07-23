@@ -1,16 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using UsuarioAPI.Data;
 
 namespace UsuarioAPI
 {
@@ -26,11 +23,18 @@ namespace UsuarioAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configurando seviço de acesso ao banco de dados
+            services.AddDbContext<UserDbContext>(options => 
+            options.UseMySQL(Configuration.GetConnectionString("UsuarioConnection")));
+            // Configurando Identity
+            services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
+            .AddEntityFrameworkStores<UserDbContext>();            
+            
+            services.AddControllers();
 
             // Adcionando serviço do AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            
-            services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UsuarioAPI", Version = "v1" });
