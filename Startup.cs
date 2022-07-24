@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UsuarioAPI.Data;
+using UsuarioAPI.Services;
 
 namespace UsuarioAPI
 {
@@ -28,7 +29,9 @@ namespace UsuarioAPI
             options.UseMySQL(Configuration.GetConnectionString("UsuarioConnection")));
             // Configurando Identity
             services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
-            .AddEntityFrameworkStores<UserDbContext>();            
+            .AddEntityFrameworkStores<UserDbContext>();
+            // Configurar os Services
+            services.AddScoped<CadastroService, CadastroService>();        
             
             services.AddControllers();
 
