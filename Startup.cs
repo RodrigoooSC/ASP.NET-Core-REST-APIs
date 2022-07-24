@@ -32,11 +32,18 @@ namespace UsuarioAPI
             .AddEntityFrameworkStores<UserDbContext>();
             // Configurar os Services
             services.AddScoped<CadastroService, CadastroService>();        
-            
+            services.AddScoped<LoginService, LoginService>(); 
             services.AddControllers();
 
             // Adcionando serviço do AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            // Configurao padrão de senha do Identity
+            // services.Configure<IdentityOptions>(options =>
+            // {
+            //     options.Password.RequireNonAlphanumeric = false;
+            //     options.Password.RequireUppercase = false;
+            //     options.Password.RequiredLength = 8;
+            // });
 
             services.AddSwaggerGen(c =>
             {
