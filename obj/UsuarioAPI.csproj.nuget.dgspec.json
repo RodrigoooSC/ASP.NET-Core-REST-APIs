@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj": {}
+    "C:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj": {}
   },
   "projects": {
-    "c:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj": {
+    "C:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj",
+        "projectUniqueName": "C:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj",
         "projectName": "UsuarioAPI",
-        "projectPath": "c:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj",
+        "projectPath": "C:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj",
         "packagesPath": "C:\\Users\\rodri\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\obj\\",
+        "outputPath": "C:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -26,6 +26,7 @@
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -50,7 +51,7 @@
             },
             "FluentResults": {
               "target": "Package",
-              "version": "[3.8.0, )"
+              "version": "[2.5.0, )"
             },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
