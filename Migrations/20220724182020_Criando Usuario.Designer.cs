@@ -9,7 +9,7 @@ using UsuarioAPI.Data;
 namespace UsuarioAPI.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220723013958_Criando Usuario")]
+    [Migration("20220724182020_Criando Usuario")]
     partial class CriandoUsuario
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,10 +158,10 @@ namespace UsuarioAPI.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -197,10 +197,10 @@ namespace UsuarioAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
