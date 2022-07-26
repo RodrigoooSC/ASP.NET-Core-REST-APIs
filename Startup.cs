@@ -28,8 +28,11 @@ namespace UsuarioAPI
             services.AddDbContext<UserDbContext>(options => 
             options.UseMySQL(Configuration.GetConnectionString("UsuarioConnection")));
             // Configurando Identity
-            services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
-            .AddEntityFrameworkStores<UserDbContext>();
+            services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
+                opt => opt.SignIn.RequireConfirmedEmail = true // Exige a confirmação do email
+            )
+            .AddEntityFrameworkStores<UserDbContext>()
+            .AddDefaultTokenProviders();
             // Configurar os Services
             services.AddScoped<CadastroService, CadastroService>();        
             services.AddScoped<LoginService, LoginService>(); 
@@ -37,7 +40,7 @@ namespace UsuarioAPI
             services.AddScoped<TokenService, TokenService>(); 
             services.AddControllers();
 
-            // Adcionando serviço do AutoMapper
+            // Adicionando serviço do AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             // Configurao padrão de senha do Identity
             // services.Configure<IdentityOptions>(options =>
