@@ -32,7 +32,7 @@ namespace UsuarioAPI
                 opt => opt.SignIn.RequireConfirmedEmail = true // Exige a confirmação do email
             )
             .AddEntityFrameworkStores<UserDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders(); // Defini o token provider
             // Configurar os Services
             services.AddScoped<CadastroService, CadastroService>();        
             services.AddScoped<LoginService, LoginService>(); 
