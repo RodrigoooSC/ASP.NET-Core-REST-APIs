@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using AutoMapper;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +31,7 @@ namespace UsuarioAPI.Services
             if(resultadoIdentity.Result.Succeeded) 
             {
                 var code = _userManeger.GenerateEmailConfirmationTokenAsync(usuarioIdentity).Result;
+                var encodedCode = HttpUtility.UrlEncode(code);
                 _emailService.EnviarEmail(new []{ usuarioIdentity.Email}, "Link de Ativação", usuarioIdentity.Id, code); // Envia email de confirmação com os parametros
                 return Result.Ok().WithSuccess(code);
             }
