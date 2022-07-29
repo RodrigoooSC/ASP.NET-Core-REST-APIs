@@ -21,6 +21,9 @@ namespace UsuarioAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            // Realiza a configuração para resgatar em tempo de execução as secrets anteriormente configuradas no appsettings.json
+            .ConfigureAppConfiguration((context, builder) =>
+            builder.AddUserSecrets<Program>());
     }
 }
