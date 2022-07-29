@@ -1,0 +1,16 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace FilmesAPI.Models
+{
+    public class Gerente
+    {
+        [Key]
+        [Required]
+        public int Id {get; set;}
+        public string Nome {get; set;}
+        [JsonIgnore]
+        public virtual List<Cinema> Cinemas { get; set; } // Relaciona uma lista de cinemas que um gerente possa ter.
+    }
+}
