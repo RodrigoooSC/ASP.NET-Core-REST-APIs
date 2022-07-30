@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sU0KH88wZUooXVkVsTzJDk6EedV2hCwCzygS1lgk2Y6ARpjtd+NUcM/1ZnGeDzzDGzHp4cQj0OjibWLjMHxgrg==",
+  "dgSpecHash": "fKWGL5VwIRzyvQ4/ascwiMC+W0sDb6C8ZFAmb3Xet8gsrRikUvbn//YgcvwraackNzaFAHertnAM0mXCoEFWRQ==",
   "success": true,
-  "projectFilePath": "c:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\UsuarioAPI\\UsuarioAPI.csproj",
+  "projectFilePath": "C:\\Users\\rodri\\Desktop\\C-Sharp\\PROJETOS C#\\ASP.NET-Core-REST-APIs\\UsuarioAPI\\UsuarioAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rodri\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\rodri\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

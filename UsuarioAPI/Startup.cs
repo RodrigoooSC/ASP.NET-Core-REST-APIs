@@ -38,6 +38,7 @@ namespace UsuarioAPI
             services.AddScoped<LoginService, LoginService>(); 
              services.AddScoped<LogoutService, LogoutService>(); 
             services.AddScoped<TokenService, TokenService>(); 
+            services.AddScoped<EmailService, EmailService>();
             services.AddControllers();
 
             // Adicionando serviço do AutoMapper
