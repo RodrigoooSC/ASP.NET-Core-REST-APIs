@@ -34,23 +34,44 @@ namespace UsuarioAPI.Services
                     return Result.Ok().WithSuccess(token.Value); // Retorna  sucesso com o valor do token
                 } 
                 return Result.Fail("Login falhou!");
-        }
+        }       
 
         public Result SolicitaResetSenhaUsuario(SolicitaResetRequest request)
         {
             //Token de redifinição
-            IdentityUser<int> identityUser = _signInManager
-            .UserManager
-            .Users
-            .FirstOrDefault(user => user.NormalizedEmail == request.Email.ToUpper());
+            IdentityUser<int> identityUser = RecuperaUsuarioPorEmail(request.Email);
 
-            if(identityUser != null)
+            if (identityUser != null)
             {
                 string tokenRecuperacao = _signInManager.UserManager.GeneratePasswordResetTokenAsync(identityUser).Result;
                 return Result.Ok().WithSuccess(tokenRecuperacao);
             }
 
             return Result.Fail("Falha ao solicitar redifinição de senha");
+        }       
+
+        public Result ResetaSenhaUsuario(EfetuaResetRequest request)
+        {
+            // Redefinição de senha
+             IdentityUser<int> identityUser = RecuperaUsuarioPorEmail(request.Email);
+
+            IdentityResult resultadoIdentity = _signInManager
+            .UserManager
+            .ResetPasswordAsync(identityUser, request.Token, request.Password)
+            .Result;
+            if(resultadoIdentity.Succeeded) return Result.Ok()
+            .WithSuccess("Senha redefinida com sucesso");
+
+            return Result.Fail("Houve um erro na operação");
+
+        }
+
+         private IdentityUser<int> RecuperaUsuarioPorEmail(string email)
+        {
+            return _signInManager
+                        .UserManager
+                        .Users
+                        .FirstOrDefault(user => user.NormalizedEmail == email.ToUpper());
         }
     }
 }
