@@ -15,24 +15,31 @@ namespace UsuarioAPI.Services
         private IMapper _mapper;
         private UserManager<IdentityUser<int>> _userManeger;
         private EmailService _emailService;
+        private RoleManager<IdentityRole<int>> _roleManager;
 
-        public CadastroService(IMapper mapper, UserManager<IdentityUser<int>> userManager, EmailService emailService)
+        public CadastroService(IMapper mapper, UserManager<IdentityUser<int>> userManager, EmailService emailService, RoleManager<IdentityRole<int>> roleManager)
         {
             _mapper = mapper;
             _userManeger = userManager;
             _emailService = emailService;
+            _roleManager = roleManager;
         }
 
         public Result CadastraUsuario(CreateUsuarioDto createDto)
         {
             Usuario usuario = _mapper.Map<Usuario>(createDto); // converte createDto em usuario
             IdentityUser<int> usuarioIdentity = _mapper.Map<IdentityUser<int>>(usuario); // converte usuario para IdentityUser
-            Task<IdentityResult> resultadoIdentity = _userManeger.CreateAsync(usuarioIdentity, createDto.Password); // Executa um tarefa assincrona para cadastrar o usuario
+            Task<IdentityResult> resultadoIdentity = _userManeger.CreateAsync(usuarioIdentity, createDto.Password);
+            // Criação de Role Adminstrador
+            var createRoleResult = _roleManager.CreateAsync(new IdentityRole<int>("admin")).Result;
+            var usuarioRoleResult = _userManeger.AddToRoleAsync(usuarioIdentity, "admin").Result;
+
+             // Executa um tarefa assincrona para cadastrar o usuario
             if(resultadoIdentity.Result.Succeeded) 
             {
                 var code = _userManeger.GenerateEmailConfirmationTokenAsync(usuarioIdentity).Result;
                 var encodedCode = HttpUtility.UrlEncode(code);
-                _emailService.EnviarEmail(new []{ usuarioIdentity.Email}, "Link de Ativação", usuarioIdentity.Id, code); // Envia email de confirmação com os parametros
+                _emailService.EnviarEmail(new [] { usuarioIdentity.Email}, "Link de Ativação", usuarioIdentity.Id, encodedCode); // Envia email de confirmação com os parametros
                 return Result.Ok().WithSuccess(code);
             }
             return Result.Fail("Falha ao cadastrar usuário!");
@@ -49,7 +56,7 @@ namespace UsuarioAPI.Services
             {                
                 return Result.Ok();
             }
-            return Result.Fail("Falha ao ativaqr conta do usuário!");
+            return Result.Fail("Falha ao ativar conta do usuário!");
         }
     }
 }

@@ -8,14 +8,15 @@ using UsuarioAPI.Models;
 
 namespace UsuarioAPI.Services
 {
-    public class TokenService // Token se acesso para o usuario
+    public class TokenService // Token de acesso para o usuario
     {        
-       public Token CreateToken(IdentityUser<int> usuario)
+       public Token CreateToken(IdentityUser<int> usuario, string role)
        {
             Claim[] direitosUsuario = new Claim[]
             {
-                new Claim("usename", usuario.UserName),
-                new Claim("id", usuario.Id.ToString())
+                new Claim("username", usuario.UserName),
+                new Claim("id", usuario.Id.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var chave = new SymmetricSecurityKey(

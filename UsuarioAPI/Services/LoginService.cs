@@ -29,8 +29,10 @@ namespace UsuarioAPI.Services
                     .UserManager
                     .Users
                     .FirstOrDefault(usuario =>
-                    usuario.NormalizedUserName == request.UserName.ToUpper());
-                    Token token = _tokenService.CreateToken(identityUser);
+                    usuario.NormalizedUserName == request.UserName.ToUpper());                    
+                    Token token = _tokenService.CreateToken(identityUser, _signInManager
+                    .UserManager
+                    .GetRolesAsync(identityUser).Result.FirstOrDefault());
                     return Result.Ok().WithSuccess(token.Value); // Retorna  sucesso com o valor do token
                 } 
                 return Result.Fail("Login falhou!");

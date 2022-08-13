@@ -15,7 +15,7 @@ namespace UsuarioAPI.Models
             Destinatario = new List<MailboxAddress>(); // Instancia uma lista de MailboxAddress
             Destinatario.AddRange(destinatario.Select(d => new MailboxAddress("", d))); // Adiciona uma string de destinatario a nossa lista de email
             Assunto = assunto;
-            Conteudo = $"http://localhost:6000/ativa?UsuarioId={usuarioId}&COdigoDeAtivacao={codigo}";
+            Conteudo = $"http://localhost:6000/ativa?UsuarioId={usuarioId}&CodigoDeAtivacao={codigo}";
         } 
     }
 }
