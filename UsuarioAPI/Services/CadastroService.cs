@@ -30,6 +30,9 @@ namespace UsuarioAPI.Services
             Usuario usuario = _mapper.Map<Usuario>(createDto); // converte createDto em usuario
             IdentityUser<int> usuarioIdentity = _mapper.Map<IdentityUser<int>>(usuario); // converte usuario para IdentityUser
             Task<IdentityResult> resultadoIdentity = _userManeger.CreateAsync(usuarioIdentity, createDto.Password);
+            // Criando Role regular
+            _userManeger.AddToRoleAsync(usuarioIdentity, "regular");
+
            
 
              // Executa um tarefa assincrona para cadastrar o usuario
