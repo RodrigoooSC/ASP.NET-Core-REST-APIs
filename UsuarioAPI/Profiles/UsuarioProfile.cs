@@ -11,6 +11,8 @@ namespace UsuarioAPI.Profiles
         {
             CreateMap<CreateUsuarioDto, Usuario>(); // Faz o mapeamento de CreateUsuarioDto para Usuario.
             CreateMap<Usuario, IdentityUser<int>>();
+            CreateMap<Usuario, CustomIdentityUser>();
+
         }
     }
 }

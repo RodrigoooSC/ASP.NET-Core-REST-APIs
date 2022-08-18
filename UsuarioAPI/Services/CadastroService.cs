@@ -13,27 +13,23 @@ namespace UsuarioAPI.Services
     public class CadastroService
     {        
         private IMapper _mapper;
-        private UserManager<IdentityUser<int>> _userManeger;
-        private EmailService _emailService;
-        private RoleManager<IdentityRole<int>> _roleManager;
+        private UserManager<CustomIdentityUser> _userManeger;
+        private EmailService _emailService;        
 
-        public CadastroService(IMapper mapper, UserManager<IdentityUser<int>> userManager, EmailService emailService, RoleManager<IdentityRole<int>> roleManager)
+        public CadastroService(IMapper mapper, UserManager<CustomIdentityUser> userManager, EmailService emailService)
         {
             _mapper = mapper;
             _userManeger = userManager;
-            _emailService = emailService;
-            _roleManager = roleManager;
+            _emailService = emailService;            
         }
 
         public Result CadastraUsuario(CreateUsuarioDto createDto)
         {
             Usuario usuario = _mapper.Map<Usuario>(createDto); // converte createDto em usuario
-            IdentityUser<int> usuarioIdentity = _mapper.Map<IdentityUser<int>>(usuario); // converte usuario para IdentityUser
+            CustomIdentityUser usuarioIdentity = _mapper.Map<CustomIdentityUser>(usuario); // converte usuario para IdentityUser
             Task<IdentityResult> resultadoIdentity = _userManeger.CreateAsync(usuarioIdentity, createDto.Password);
             // Criando Role regular
-            _userManeger.AddToRoleAsync(usuarioIdentity, "regular");
-
-           
+            _userManeger.AddToRoleAsync(usuarioIdentity, "regular");           
 
              // Executa um tarefa assincrona para cadastrar o usuario
             if(resultadoIdentity.Result.Succeeded) 

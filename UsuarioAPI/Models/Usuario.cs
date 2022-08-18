@@ -1,3 +1,5 @@
+using System;
+
 namespace UsuarioAPI.Models
 {
     public class Usuario
@@ -5,5 +7,6 @@ namespace UsuarioAPI.Models
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public DateTime DataNascimento { get; set; }
     }
 }
