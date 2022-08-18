@@ -29,7 +29,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet] // Recupera todos os filmes por classificacao etaria
-        [Authorize(Roles = "admin, regular")]
+        [Authorize(Roles = "admin, regular", Policy = "IdadeMinima")] // Politica de acesso
         public IActionResult RecuperaFilmes([FromQuery] int? classificacaoEtaria = null) // Classificacao etari pode ser nula
         {
             List<ReadFilmeDto> readDto =  _filmeService.RecuperaFilmes(classificacaoEtaria);

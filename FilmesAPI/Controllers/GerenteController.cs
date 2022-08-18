@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
-using FilmesAPI.Data;
 using FilmesAPI.Data.Dtos;
-using FilmesAPI.Models;
 using FilmesAPI.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;

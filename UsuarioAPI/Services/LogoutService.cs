@@ -1,4 +1,3 @@
-using System;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using UsuarioAPI.Models;

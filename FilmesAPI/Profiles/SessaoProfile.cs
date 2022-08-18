@@ -1,4 +1,3 @@
-using System.Linq;
 using AutoMapper;
 using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;

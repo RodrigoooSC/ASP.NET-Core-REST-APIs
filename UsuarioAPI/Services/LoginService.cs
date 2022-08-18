@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using System.Threading.Tasks;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using UsuarioAPI.Data.Requests;
