@@ -2,7 +2,7 @@
 
 Fala pessoal tudo bem? 🖖🏽 Esse projeto foi desenvolvido na formação <a href="https://www.alura.com.br/formacao-dotnet#:~:text=O%20ASP.NET%20Core%20%C3%A9%20uma%20das%20plataformas%20de,se%20aprimorando%20e%2C%20no%20final%2C%20se%20destacar%20profissionalmente%21%21ASP.NET">ASP.NET Core REST APIs</a> da plataforma <a hfer="https://www.alura.com.br/">Alura</a> com a orientação dos professores <a href="https://www.linkedin.com/in/danielartine">Daniel Artine</a> e <a href="https://www.linkedin.com/in/f%C3%A1bio-pimentel-25751b10/">Fábio Pimentel</a>.
 
-## #Sobre o projeto 📚
+## # Sobre o projeto 📚
 O projeto consiste no desenvolvimento de APIs REST que simula o gerenciamento de uma plataforma de administração de cinemas. Podendo efetuar o cadastro de cinemas, filmes, gerentes e utilizadores(admistradores e usuários), como também a restrição de acesso a cadastros e consultas por nivel de permissão que foram implantadas no decorrer das aulas.
 
 O projeto possui um serviço de envio de e-mail(<a href="https://accounts.google.com/signin/v2/identifier?service=mail&passive=1209600&osid=1&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Fhl%3Dpt-BR&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Fhl%3Dpt-BR&hl=pt-BR&emr=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin">Gmail</a>) para cadastramento de novos usuários enviando para o mesmo um link com o token de validação de usuário e posteriormente um token de acesso com as permissões predefinidas, lembrando que a aplicação está divida em duas REST APIs(FilmesAPI/UsuarioAPI) que se comunicarão durante a sua execução.
@@ -20,7 +20,7 @@ Além dos recursos poderosos do EntityFrameworkCore, a aplicação utiliza outra
 - <a href="https://github.com/jstedfast/MailKit">MailKit</a>
 - <a href="http://www.mimekit.net/">MimeKit</a>
 
-## #Executando o projeto 🚀
+## # Executando o projeto 🚀
 
 - Clone o repositório:
 
